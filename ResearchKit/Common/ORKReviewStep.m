@@ -68,6 +68,14 @@
     return [ORKReviewStepViewController class];
 }
 
++ (Class)reviewStepViewControllerClass {
+    return [ORKReviewStepViewController class];
+}
+
+- (Class)reviewStepViewControllerClass {
+    return [[self class] reviewStepViewControllerClass];
+}
+
 + (BOOL)supportsSecureCoding {
     return YES;
 }
@@ -113,6 +121,23 @@
 
 - (BOOL)isStandalone {
     return _steps != nil;
+}
+
+
+- (ORKReviewStepViewController *)instantiateReviewStepViewControllerWithReviewStep:(ORKReviewStep *)reviewStep steps:(NSArray<ORKStep *>*)steps resultSource:(id<ORKTaskResultSource>)resultSource {
+    
+    Class reviewStepViewControllerClass = [self reviewStepViewControllerClass];
+    
+    ORKReviewStepViewController *reviewStepViewController = [[reviewStepViewControllerClass alloc] initWithReviewStep:steps.lastObject steps:steps resultSource:resultSource];
+    
+//    ORKReviewStepViewController *reviewStepViewController = [[reviewStepViewControllerClass alloc] instantiateReviewStepViewControllerWithSteps:steps resultSource:resultSource];
+    
+    // Set the restoration info using the given class
+    reviewStepViewController.restorationIdentifier = self.identifier;
+    reviewStepViewController.restorationClass = reviewStepViewControllerClass;
+    
+    return reviewStepViewController;
+    
 }
 
 @end

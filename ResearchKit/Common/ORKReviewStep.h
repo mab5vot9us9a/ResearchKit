@@ -35,6 +35,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class ORKReviewStepViewController;
+
 @protocol ORKTaskResultSource;
 
 /**
@@ -98,6 +100,28 @@ ORK_CLASS_AVAILABLE
  excluded from the review step in either embedded or standalone mode.
  */
 @property (nonatomic) BOOL excludeInstructionSteps;
+
+/**
+ Returns the class that the task view controller should instantiate to display
+ this review step.
+ */
+- (Class)reviewStepViewControllerClass;
+
+/**
+ Instantiates a review step view controller for this class.
+ 
+ This method is called when a step is about to be presented. The default implementation returns
+ a view controller that is appropriate to this step by allocating an instance of `ORKReviewStepViewController`
+ using the `-stepViewControllerClass` method and initializing that instance by calling `initWithIdentifier:result:`
+ on the provided `ORKStepViewController` class instance.
+ 
+ Override this method if you need to customize the behavior before presenting the step or if
+ the view controller is presented using a nib or storyboard.
+ 
+ 
+ @return A newly initialized review step view controller.
+ */
+- (ORKReviewStepViewController *)instantiateReviewStepViewControllerWithReviewStep:(ORKReviewStep *)reviewStep steps:(NSArray<ORKStep *>*)steps resultSource:(id<ORKTaskResultSource>)resultSource;
 
 @end
 

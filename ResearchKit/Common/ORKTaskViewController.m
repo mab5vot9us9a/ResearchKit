@@ -1180,7 +1180,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
             ORKReviewStep *reviewStep = (ORKReviewStep *)step;
             NSArray *steps = [self stepsForReviewStep:reviewStep];
             id<ORKTaskResultSource> resultSource = reviewStep.isStandalone ? reviewStep.resultSource : self.result;
-            stepViewController = [[ORKReviewStepViewController alloc] initWithReviewStep:(ORKReviewStep *) step steps:steps resultSource:resultSource];
+            stepViewController = [reviewStep instantiateReviewStepViewControllerWithReviewStep:reviewStep steps:steps resultSource:resultSource];
             ORKReviewStepViewController *reviewStepViewController = (ORKReviewStepViewController *) stepViewController;
             reviewStepViewController.reviewDelegate = self;
         }
